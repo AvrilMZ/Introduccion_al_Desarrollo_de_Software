@@ -1,0 +1,11 @@
+sed -n '/^[^,]*,\(.*\)$/ {s/^[^,]*,\(.*\)$/\1/; /[a-z]/ { /[A-Z]/ { /[0-9]/ { /[@$!%*?&#]/ p } } }' contraseñas.csv
+
+
+
+Explicación:
+/^[^,],\(.\)$/: Selecciona líneas con una contraseña después de la coma.
+{s/^[^,],\(.\)$/\1/: Extrae solo la contraseña, eliminando el nombre de usuario y la coma.
+/[a-z]/ { ... }: Verifica que la contraseña contenga al menos una letra minúscula.
+/[A-Z]/ { ... }: Dentro del bloque anterior, verifica que la contraseña contenga al menos una letra mayúscula.
+/[0-9]/ { ... }: Dentro del bloque anterior, verifica que la contraseña contenga al menos un número.
+/[@$!%*?&#]/ p: Dentro del bloque anterior, verifica que la contraseña contenga al menos un carácter especial y la imprime si cumple todas las condiciones.

@@ -1,0 +1,13 @@
+sed -n '/^[a-zA-Z0-9]*[0-9][a-zA-Z][a-zA-Z0-9]*,[^,]*/s/^\([^,]*\),.*/\1/p' contraseñas.csv
+
+
+
+Explicación:
+/^[a-zA-Z0-9][0-9][a-zA-Z][a-zA-Z0-9],[^,]*/:
+^[a-zA-Z0-9][0-9][a-zA-Z][a-zA-Z0-9]: Asegura que el nombre de usuario solo contenga letras y dígitos. Además, asegura que contenga al menos un dígito y al menos una letra.
+,[^,]*: Coincide con la coma y el resto de la línea (la contraseña).
+
+s/^\([^,]\),./\1/p:
+^[^,]*,: Coincide con el nombre de usuario hasta la coma.
+\([^,]*\): Captura el nombre de usuario.
+\1: Imprime el nombre de usuario capturado.

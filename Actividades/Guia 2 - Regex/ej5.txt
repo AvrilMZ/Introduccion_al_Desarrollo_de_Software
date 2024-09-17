@@ -1,0 +1,1 @@
+grep -o '\bc' oraciones.txt | grep -c '^'

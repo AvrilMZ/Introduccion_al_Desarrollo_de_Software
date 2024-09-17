@@ -1,0 +1,19 @@
+sed -n 's/^\([^,]*\d[^,]*\),.*/\1/p' contraseñas.csv
+
+
+
+Explicación:
+s/.../.../: Comando de sustitución en sed. Busca un patrón y lo reemplaza con otro.
+
+^\([^,]\d[^,]\),.*: Este es el patrón que sed está buscando en cada línea:
+^: Marca el inicio de la línea.
+
+\([^,]\d[^,]\): Es un grupo de captura que coincidirá con el nombre de usuario que contiene al menos un dígito:
+\( y \): Delimitan el grupo de captura.
+[^,]*: Coincide con cualquier número de caracteres que no sean comas.
+\d: Coincide con un dígito. En algunas versiones de sed, se puede usar \d para dígitos, pero en la mayoría de las implementaciones de sed, deberías usar [0-9] para asegurar la compatibilidad.
+[^,]*: Coincide con cualquier número de caracteres que no sean comas, continuando después del dígito hasta encontrar la coma.
+,.*: Coincide con la coma que separa el nombre de usuario de la contraseña y cualquier cosa que venga después de la coma (la contraseña).
+\1: Es la parte de reemplazo. Aquí, \1 se refiere al primer grupo de captura (el nombre de usuario que contiene un dígito), que queremos imprimir.
+
+p: Imprime la línea si coincide con el patrón.

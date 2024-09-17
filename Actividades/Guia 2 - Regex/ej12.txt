@@ -1,0 +1,6 @@
+sed -n 's/^\([^,]*\_[^,]*\),.*/\1/p' contraseñas.csv
+
+
+
+Explicación:
+- Es casi identico al ej11 solo que busca los guiones bajos.

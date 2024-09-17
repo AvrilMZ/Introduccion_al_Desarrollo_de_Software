@@ -1,0 +1,18 @@
+sed -n '/^[^,]*,\([a-zA-Z]*[0-9][a-zA-Z]*\|[0-9]*[a-zA-Z][0-9]*\)$/s/^[^,]*,\([^,]*\)$/\1/p' contraseñas.csv
+
+
+
+Explicación:
+/^[^,],\([a-zA-Z][0-9][a-zA-Z]\|[0-9][a-zA-Z][0-9]*\)$/:
+^[^,]*,: Coincide con el nombre de usuario hasta la coma.
+
+\([a-zA-Z][0-9][a-zA-Z]\|[0-9][a-zA-Z][0-9]\):
+[a-zA-Z][0-9][a-zA-Z]: Coincide con contraseñas que contienen al menos un dígito y cualquier combinación de letras antes y después del dígito.
+[0-9][a-zA-Z][0-9]: Coincide con contraseñas que contienen al menos una letra y cualquier combinación de dígitos antes y después de la letra.
+\|: Permite alternar entre las dos opciones anteriores.
+$: Asegura que el patrón coincida con el final de la línea, asegurando que solo las contraseñas alfanuméricas sin caracteres especiales sean capturadas.
+
+s/^[^,],\([^,]\)$/\1/p:
+^[^,]*,: Coincide con el nombre de usuario hasta la coma.
+\([^,]*\): Captura la contraseña que sigue a la coma.
+\1: Imprime la contraseña capturada.

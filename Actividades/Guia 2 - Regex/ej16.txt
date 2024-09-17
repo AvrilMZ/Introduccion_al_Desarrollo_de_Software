@@ -1,0 +1,10 @@
+sed -n '/^[^,]*,\(.\{14\}\)$/s/^[^,]*,\(.\{14\}\)$/\1/p' contraseñas.csv
+
+
+
+Explicación:
+/^[^,]*,\(.\{14\}\)$/: Selecciona las líneas donde la contraseña tiene exactamente 14 caracteres.
+^[^,]*,: Coincide con el nombre de usuario y la coma.
+\(...\{14\}\): Captura exactamente 14 caracteres.
+$: Asegura que la línea termine después de estos 14 caracteres.
+s/^[^,]*,\(.\{14\}\)$/\1/p: Reemplaza toda la línea con solo la contraseña de 14 caracteres, si la línea cumple con el patrón.

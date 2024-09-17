@@ -1,0 +1,7 @@
+7. ^L devuelve todos los inicios de oración con L (no incluye minúsculas).
+
+8. !$ devuelve todos los fines de oración con !.
+
+9. El espacio busca y devuelve todos los espacios del texto.
+
+10. [A-Z1-3] devuelve todas las letras dentro del rango de la A a la Z (no incluye minúsculas) y todos los números dentro del rango de 1 a 3.

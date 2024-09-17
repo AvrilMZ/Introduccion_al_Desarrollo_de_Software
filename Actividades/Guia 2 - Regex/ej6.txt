@@ -1,0 +1,1 @@
+grep ‘\bp’ oraciones.txt

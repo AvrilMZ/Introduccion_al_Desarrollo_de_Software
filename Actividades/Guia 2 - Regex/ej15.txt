@@ -1,0 +1,11 @@
+sed -n 's/^[^,]*,\(.\)\(.*\)\1$/\1/p' contraseñas.csv
+
+
+
+Explicación:
+s/^[^,],\(.\)\(.\)\1$/\1/p:
+^[^,]*,: Coincide con el inicio de la línea y elimina todo hasta la primera coma. Esto captura el nombre de usuario y la coma, y lo descarta.
+\(...\): Captura el primer carácter de la contraseña.
+\(.*\): Captura el resto de la contraseña.
+\1$: Verifica que el último carácter de la contraseña sea igual al primer carácter capturado.
+\1: Imprime la contraseña si la condición se cumple.
