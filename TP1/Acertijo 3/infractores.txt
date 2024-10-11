@@ -1,0 +1,6 @@
+Stan Pines,24/01/2020,8
+Soos Ramirez,12/08/2020,12
+Blendin Blandin,02/04/2020,35
+Soos Ramirez,12/08/2021,11
+Stan Pines,24/01/2021,11
+Pepe Pines,25/01/2021,18

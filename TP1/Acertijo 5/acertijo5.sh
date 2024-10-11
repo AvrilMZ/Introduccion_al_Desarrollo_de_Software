@@ -1,7 +1,27 @@
 #!/bin/bash
 
-#POST: Cualcula el factorial del numero pasado por parametro
-factorial(){
+#POST: Verifica que 'archivo_entrada' existe y no está vacío.
+verificacion_entrada() {
+	local archivo_entrada=$1
+	if [[ ! -f $archivo_entrada ]]; then
+        echo "El archivo de entrada no existe."
+        exit 1
+    elif [[ ! -s $archivo_entrada ]]; then
+        echo "El archivo de entrada está vacío."
+        exit 1
+    fi
+}
+
+#POST: Verifica que el número pasado por parámetro sea positivo.
+numero_entrada_valido() {
+	local numero=$1
+	if [[ $numero -lt 0 ]]; then
+        echo "El número pasado debe ser mayor o igual a cero."
+        exit 1
+}
+
+#POST: Cualcula el factorial del número pasado por parámetro.
+factorial() {
 	local numero=$1
 	local resultado=1
 	
@@ -9,50 +29,51 @@ factorial(){
 		resultado=$((resultado * i))
 	done
 	
-	return $resultado
+	echo $resultado
 }
 
-#POST: Calcula el fibonacci del numero pasado por parametro.
-fibonacci(){
+#POST: Calcula el fibonacci del número pasado por parámetro.
+fibonacci() {
 	local numero=$1
 
 	if (( numero <= 0 )); then
-        return 0
+        echo 0
     elif (( numero == 1 )); then
-    	return 1
+    	echo 1
     else
         local previo1=$(fibonacci $((numero - 1)))
         local previo2=$(fibonacci $((numero - 2)))
-        return $((previo1 + previo2))
+        echo $((previo1 + previo2))
     fi
 }
 
 #POST: Devuelve la cantidad apariciones de la palabra 'misterio' en un archivo.
-contador_misterio(){
+contador_misterio() {
 	local archivo_entrada=$1
 	local contador_palabra=$(grep -c -F 'misterio' $archivo_entrada)
-	return $contador_palabra
+	echo $contador_palabra
 }
 
-#POST: Devuelve el factorial del contador de apariciones de la frase 'Mabel no esta aqui
-#	   está en sueterlandia' si es par, en el caso de ser impar devuelve el fibonaccci.
-contador_mabel(){
+#POST: Si el valor es par calcula el factorial, de lo contrario calcula su fibonacci.
+operacion_mabel() {
+	local veces_mabel=$1
+
+	if (( veces_mabel % 2 == 0 )); then
+		factorial $veces_mabel
+	else 
+		fibonacci $veces_mabel
+	fi
+}
+
+main() {
 	local archivo_entrada=$1
-	local contador_palabra=$(grep -c -F 'Mabel no esta aqui está en sueterlandia' $archivo_entrada)
+	local veces_mabel=$2
+	local archivo_salida=$3
 
-    if (( contador_palabra % 2 == 0 )); then
-        return $(factorial $contador_palabra)
-    else
-        return $(fibonacci $contador_palabra)
-    fi
+	verificacion_entrada $archivo_entrada
+	numero_entrada_valido $veces_mabel
+	contador_misterio $archivo_entrada > $archivo_salida
+	operacion_mabel $veces_mabel >> $archivo_salida
 }
 
-main(){
-	local entrada="pagina_diario.txt"
-	local salida="lector_clave_secreta.txt"
-
-	contador_misterio $entrada > $salida
-	contador_mabel $entrada >> $salida
-}
-
-main
+main $1 $2 $3

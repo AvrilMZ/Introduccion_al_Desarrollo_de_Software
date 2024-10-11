@@ -1,67 +1,48 @@
 #!/bin/bash
 
+#POST: Verifica que 'archivo_entrada' existe y no está vacío.
+verificacion_entrada() {
+	local archivo_entrada=$1
+	if [[ ! -f $archivo_entrada ]]; then
+        echo "El archivo de entrada no existe."
+        exit 1
+    elif [[ ! -s $archivo_entrada ]]; then
+        echo "El archivo de entrada está vacío."
+        exit 1
+    fi
+}
+
 #POST: Devuelve los 3 mejores tiempos por año en orden ascendente en un archivo de salida.
-mejores_tiempos_anuales(){
+mejores_tiempos_anuales() {
 	local archivo_entrada=$1
 	local archivo_salida=$2
-	
-	primer_mejor_tiempo=9999
-	segundo_mejor_tiempo=9999
-	tercer_mejor_tiempo=9999
-	
-	tiempo=grep -o '^[^,]*,[^,]*,\([0-9]*\)' $archivo_entrada
-	anio=grep -o '^[^,]*,[0-9]\{4\}' $archivo_entrada
-	
-	if [ tiempo -lt primer_mejor_tiempo ] then
-		primer_mejor_tiempo=tiempo
-	elif [ tiempo -lt segundo_mejor_tiempo ] && [ tiempo -gt primer_mejor_tiempo ] then
-		segundo_mejor_tiempo=tiempo
-	elif [ tiempo -lt tercer_mejor_tiempo ] && [ tiempo -gt segundo_mejor_tiempo ] then
-		tercer_mejor_tiempo=tiempo
-	fi
+	> $archivo_salida
 
-	primer_mejor_tiempo > $archivo_salida
-	segundo_mejor_tiempo > $archivo_salida
-	tercer_mejor_tiempo > $archivo_salida
+    anios=$(cut -d ',' -f2 $archivo_entrada | cut -d '/' -f3 | sort -u)
 
-	while [ anio ] do
-		anio++
-		mejores_tiempos_anuales()
-	done
+    for anio in $anios; do
+        grep ",[0-9]*/[0-9]*/$anio," $archivo_entrada | sort -t ',' -k3 -n | head -n 3 >> "$archivo_salida"
+    done
 }
 
 #POST: Devuelve los 3 mejores tiempos historicos en un archivo de salida.
-mejores_tiempos_historicos(){
+mejores_tiempos_historicos() {
 	local archivo_entrada=$1
 	local archivo_salida=$2
-	
-	primer_mejor_tiempo=9999
-	segundo_mejor_tiempo=9999
-	tercer_mejor_tiempo=9999
-	
-	tiempo=grep -o '^[^,]*,[^,]*,\([0-9]*\)' $archivo_entrada
-	
-	if [ tiempo -lt primer_mejor_tiempo ] then
-		primer_mejor_tiempo=tiempo
-	elif [ tiempo -lt segundo_mejor_tiempo ] && [ tiempo -gt primer_mejor_tiempo ] then
-		segundo_mejor_tiempo=tiempo
-	elif [ tiempo -lt tercer_mejor_tiempo ] && [ tiempo -gt segundo_mejor_tiempo ] then
-		tercer_mejor_tiempo=tiempo
-	fi
-
 	> $archivo_salida
-	primer_mejor_tiempo > $archivo_salida
-	segundo_mejor_tiempo > $archivo_salida
-	tercer_mejor_tiempo > $archivo_salida
+
+    sort -t ',' -k3 -n $archivo_entrada | head -n 3 >> $archivo_salida
 }
 
-main(){
-	local entrada=infractores.csv
-	local salida_anual=touch infractores.txt
-	local salida_historica=touch acertijo.txt
+main() {
+	local archivo_entrada=$1
+	local salida_anual="infractores.txt"
+    local salida_historica="acertijo3.txt"
 	
-	mejores_tiempos_anual(entrada, salida_anual)
-	mejores_tiempos_historicos(entrada, salida_historica)
+	verificacion_entrada $archivo_entrada
+
+	mejores_tiempos_anuales $archivo_entrada $salida_anual
+	mejores_tiempos_historicos $archivo_entrada $salida_historica
 }
 
-main
+main $1
