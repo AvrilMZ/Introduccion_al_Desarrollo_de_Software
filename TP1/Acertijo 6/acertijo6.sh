@@ -20,6 +20,11 @@ filtro() {
 }
 
 main() {
+	if [[ $# -ne 2 ]]; then
+        echo "Deben ser dos ingresos: El archivo de entrada y el archivo de salida."
+        exit 1
+    fi
+
 	local archivo_entrada=$1
 	local archivo_salida=$2
 
@@ -27,4 +32,4 @@ main() {
 	filtro $archivo_entrada $archivo_salida
 }
 
-main $1 $2
+main $@

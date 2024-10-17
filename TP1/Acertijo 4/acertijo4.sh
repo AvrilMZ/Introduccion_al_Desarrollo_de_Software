@@ -24,13 +24,12 @@ descifrar_mensaje() {
 	local archivo_entrada=$1
 	local archivo_salida=$2
 
-	grep -o '[a-zA-Z]' $archivo_entrada | tr -d '\n' | tr 'A-Z' 'a-z' | \
-	sed -e "s/cueva/$CUEVA/g; 
-		s/secreta/$SECRETA/g;
-		s/pocos/$POCOS/g;
-		s/metros/$METROS/g;
-		s/arriba/$ARRIBA/g;
-		s/atras/$ATRAS/g" > $archivo_salida
+	sed -r "s/c[^ ]*u[^ ]*e[^ ]*v[^ ]*a/$CUEVA/Ig; 
+        s/s[^ ]*e[^ ]*c[^ ]*r[^ ]*e[^ ]*t[^ ]*a/$SECRETA/Ig; 
+        s/p[^ ]*o[^ ]*c[^ ]*o[^ ]*s/$POCOS/Ig; 
+        s/m[^ ]*e[^ ]*t[^ ]*r[^ ]*o[^ ]*s/$METROS/Ig; 
+        s/a[^ ]*r[^ ]*r[^ ]*i[^ ]*b[^ ]*a/$ARRIBA/Ig; 
+        s/a[^ ]*t[^ ]*r[^ ]*a[^ ]*s/$ATRAS/Ig" $archivo_entrada | tr -d '\n[:punct:] ' > $archivo_salida
 }
 
 #POST: Realiza una copia del contendio del archivo ingresado en un otro llamado 'backup.txt'.
@@ -43,15 +42,19 @@ crear_backup() {
 }
 
 main() {
+	if [[ $# -ne 2 ]]; then
+        echo "Deben ser dos ingresos: El archivo de entrada y el archivo de salida."
+        exit 1
+    fi
+
 	local archivo_entrada=$1
 	local archivo_salida=$2
 	local archivo_backup="backup.txt"
 
 	verificacion_entrada $archivo_entrada
 
-	read -p "Ingrese el nombre del papiro: " entrada
 	descifrar_mensaje $archivo_entrada $archivo_salida
 	crear_backup $archivo_salida
 }
 
-main $1 $2
+main $@

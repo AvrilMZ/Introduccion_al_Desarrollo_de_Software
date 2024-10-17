@@ -35,6 +35,11 @@ mejores_tiempos_historicos() {
 }
 
 main() {
+	if [[ $# -ne 1 ]]; then
+        echo "Debe ser un ingreso: El archivo de entrada."
+        exit 1
+    fi
+
 	local archivo_entrada=$1
 	local salida_anual="infractores.txt"
     local salida_historica="acertijo3.txt"
@@ -45,4 +50,4 @@ main() {
 	mejores_tiempos_historicos $archivo_entrada $salida_historica
 }
 
-main $1
+main $@

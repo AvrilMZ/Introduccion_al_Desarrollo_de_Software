@@ -18,6 +18,7 @@ numero_entrada_valido() {
 	if [[ $numero -lt 0 ]]; then
         echo "El número pasado debe ser mayor o igual a cero."
         exit 1
+	fi
 }
 
 #POST: Cualcula el factorial del número pasado por parámetro.
@@ -41,16 +42,23 @@ fibonacci() {
     elif (( numero == 1 )); then
     	echo 1
     else
-        local previo1=$(fibonacci $((numero - 1)))
-        local previo2=$(fibonacci $((numero - 2)))
-        echo $((previo1 + previo2))
+        local previo1=0
+        local previo2=1
+        local resultado=1
+
+        for (( i=2; i<=numero; i++ )); do
+            resultado=$((previo1 + previo2))
+            previo1=$previo2
+            previo2=$resultado
+        done
+        echo $resultado
     fi
 }
 
 #POST: Devuelve la cantidad apariciones de la palabra 'misterio' en un archivo.
 contador_misterio() {
 	local archivo_entrada=$1
-	local contador_palabra=$(grep -c -F 'misterio' $archivo_entrada)
+	local contador_palabra=$(grep -c -E '\bmisterio\b' $archivo_entrada)
 	echo $contador_palabra
 }
 
@@ -58,7 +66,7 @@ contador_misterio() {
 operacion_mabel() {
 	local veces_mabel=$1
 
-	if (( veces_mabel % 2 == 0 )); then
+	if (( $veces_mabel % 2 == 0 )); then
 		factorial $veces_mabel
 	else 
 		fibonacci $veces_mabel
@@ -66,6 +74,11 @@ operacion_mabel() {
 }
 
 main() {
+	if [[ $# -ne 3 ]]; then
+        echo "Deben ser tres ingresos: El archivo de entrada, la cantidad de veces, y el archivo de salida."
+        exit 1
+    fi
+
 	local archivo_entrada=$1
 	local veces_mabel=$2
 	local archivo_salida=$3
@@ -76,4 +89,4 @@ main() {
 	operacion_mabel $veces_mabel >> $archivo_salida
 }
 
-main $1 $2 $3
+main $@

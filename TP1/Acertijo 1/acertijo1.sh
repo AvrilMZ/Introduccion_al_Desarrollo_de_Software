@@ -16,10 +16,22 @@ verificacion_entrada() {
 filtro() {
 	local archivo_entrada=$1
 	local archivo_salida=$2
-	sed -n '/:[0-5][13579] /{/7/ {/resbaló\|limpió/p}}' $archivo_entrada > $archivo_salida
+
+	hora=$(sed -n '/:[0-5][13579] /{/7/ {/resbaló.*barro\|limpió.*pezuñas/p}}' $archivo_entrada | sort | head -n 1 | cut -d' ' -f1)
+
+	if [ -n "$hora" ]; then
+        echo "Hora indicada para capturar a Pato: $hora" > $archivo_salida
+    else
+        > $archivo_salida
+    fi
 }
 
 main() {
+	if [[ $# -ne 2 ]]; then
+        echo "Deben ser dos ingresos: El archivo de entrada y el archivo de salida."
+        exit 1
+    fi
+
 	local archivo_entrada=$1
 	local archivo_salida=$2
 
@@ -27,4 +39,4 @@ main() {
 	filtro $archivo_entrada $archivo_salida
 }
 
-main $1 $2
+main $@
