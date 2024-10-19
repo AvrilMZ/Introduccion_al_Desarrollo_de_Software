@@ -14,7 +14,7 @@ verificacion_entrada() {
 
 #POST: Elimina las líneas que no comiencen con una mayúscula y sigan con una minúscula.
 eliminar_lineas_mayuscula_minuscula() {
-	sed -n '/^\([A-Z][a-z]\|[A-Z] \)/p'
+	sed -n '/^[A-Z][a-z]/p'
 }
 
 #POST: Elimina las líneas con dos vocales consecutivas.

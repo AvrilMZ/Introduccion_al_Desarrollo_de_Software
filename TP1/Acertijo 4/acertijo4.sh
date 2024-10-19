@@ -24,12 +24,12 @@ descifrar_mensaje() {
 	local archivo_entrada=$1
 	local archivo_salida=$2
 
-	sed -r "s/c[^ ]*u[^ ]*e[^ ]*v[^ ]*a/$CUEVA/Ig; 
-        s/s[^ ]*e[^ ]*c[^ ]*r[^ ]*e[^ ]*t[^ ]*a/$SECRETA/Ig; 
-        s/p[^ ]*o[^ ]*c[^ ]*o[^ ]*s/$POCOS/Ig; 
-        s/m[^ ]*e[^ ]*t[^ ]*r[^ ]*o[^ ]*s/$METROS/Ig; 
-        s/a[^ ]*r[^ ]*r[^ ]*i[^ ]*b[^ ]*a/$ARRIBA/Ig; 
-        s/a[^ ]*t[^ ]*r[^ ]*a[^ ]*s/$ATRAS/Ig" $archivo_entrada | tr -d '\n[:punct:] ' > $archivo_salida
+	sed -r "s/c[^a-zA-Z]*u[^a-zA-Z]*e[^a-zA-Z]*v[^a-zA-Z]*a/$CUEVA/Ig; 
+        s/s[^a-zA-Z]*e[^a-zA-Z]*c[^a-zA-Z]*r[^a-zA-Z]*e[^a-zA-Z]*t[^a-zA-Z]*a/$SECRETA/Ig; 
+        s/p[^a-zA-Z]*o[^a-zA-Z]*c[^a-zA-Z]*o[^a-zA-Z]*s/$POCOS/Ig; 
+        s/m[^a-zA-Z]*e[^a-zA-Z]*t[^a-zA-Z]*r[^a-zA-Z]*o[^ a-zA-Z]*s/$METROS/Ig; 
+        s/a[^a-zA-Z]*r[^a-zA-Z]*r[^a-zA-Z]*i[^a-zA-Z]*b[^ a-zA-Z]*a/$ARRIBA/Ig; 
+        s/a[^a-zA-Z]*t[^a-zA-Z]*r[^a-zA-Z]*a[^a-zA-Z]*s/$ATRAS/Ig" $archivo_entrada | tr -d '\n[:punct:] ' > $archivo_salida
 }
 
 #POST: Realiza una copia del contendio del archivo ingresado en un otro llamado 'backup.txt'.
