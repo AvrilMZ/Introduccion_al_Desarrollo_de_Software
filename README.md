@@ -49,7 +49,7 @@ Cursada el segundo cuatrimestre de 2024. [Pagina de la cátedra.](https://intro-
 ./acertijo6.sh pared.txt codigo_secreto.txt
 ```
 
-## [Trabajo Práctico 2](https://github.com/AvrilMZ/TP2_Introduccion_al_Desarrollo_de_Software)
+## [Trabajo Práctico 2](TP2)
 - Desarrollo de un sitio web completo con frontend y backend.
 - Diseño y construcción de una API REST para el backend.
 - Desarrollo de un frontend estático con al menos tres páginas (CSR).
